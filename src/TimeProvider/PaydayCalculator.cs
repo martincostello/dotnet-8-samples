@@ -1,10 +1,10 @@
-﻿namespace TimeProvider;
+﻿namespace DotNet8Samples;
 
-public class PaydayCalculator
+public class PaydayCalculator(TimeProvider timeProvider)
 {
     public bool IsItPayday()
     {
-        var today = DateTime.Today;
+        var today = timeProvider.GetUtcNow().DateTime;
         var thisMonthsPayday = new DateTime(today.Year, today.Month, 1).AddMonths(1).AddDays(-1);
 
         if (thisMonthsPayday.DayOfWeek == DayOfWeek.Sunday)
