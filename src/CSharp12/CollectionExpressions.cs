@@ -68,6 +68,8 @@ public static class CollectionExpressions
 
         PrintDictionary("Empty dictionary", []);
         PrintCrewMembers([]);
+
+        Console.WriteLine();
     }
 
     static void PrintValues<T>(string prefix, IEnumerable<T> values)
