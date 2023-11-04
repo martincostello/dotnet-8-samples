@@ -2,6 +2,11 @@
 
 public class PaydayCalculator(TimeProvider timeProvider)
 {
+    public PaydayCalculator()
+        : this(TimeProvider.System)
+    {
+    }
+
     public bool IsItPayday()
     {
         var today = timeProvider.GetUtcNow().DateTime;
