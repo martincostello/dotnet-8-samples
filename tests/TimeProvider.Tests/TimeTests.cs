@@ -125,21 +125,18 @@ public class TimeTests(ITestOutputHelper outputHelper)
         var timeProvider = new FakeTimeProvider();
         await using var eggTimer = new EggTimer(runny, timeProvider);
 
-        var cooked = false;
         var start = DateTimeOffset.UtcNow;
 
         eggTimer.Cooked += (_, args) =>
         {
             var elapsed = DateTimeOffset.UtcNow - start;
-            cooked = true;
-
             outputHelper.WriteLine($"The 🍳 reported being cooked after {args.Duration.TotalMinutes} minutes.");
             outputHelper.WriteLine($"The 🍳 actually cooked after {elapsed.TotalMilliseconds}ms.");
         };        
 
         _ = Task.Run(async () =>
         {
-            while (!cooked)
+            while (!eggTimer.IsCooked)
             {
                 timeProvider.Advance(TimeSpan.FromMinutes(1));
                 await Task.Delay(TimeSpan.FromMilliseconds(1));
@@ -151,6 +148,6 @@ public class TimeTests(ITestOutputHelper outputHelper)
             await Task.Delay(TimeSpan.FromMinutes(1), timeProvider);
         }
 
-        Assert.True(cooked, "The 🍳 did not cook.");
+        Assert.True(eggTimer.IsCooked, "The 🍳 did not cook.");
     }
 }
