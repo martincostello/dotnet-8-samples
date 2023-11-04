@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CA5394</NoWarn>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+</Project>
