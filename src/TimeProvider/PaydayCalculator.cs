@@ -9,8 +9,8 @@ public class PaydayCalculator(TimeProvider timeProvider)
 
     public bool IsItPayday()
     {
-        var today = timeProvider.GetUtcNow().DateTime;
-        var thisMonthsPayday = new DateTime(today.Year, today.Month, 1).AddMonths(1).AddDays(-1);
+        var today = DateOnly.FromDateTime(timeProvider.GetUtcNow().DateTime);
+        var thisMonthsPayday = new DateOnly(today.Year, today.Month, 1).AddMonths(1).AddDays(-1);
 
         if (thisMonthsPayday.DayOfWeek == DayOfWeek.Sunday)
         {
@@ -21,6 +21,6 @@ public class PaydayCalculator(TimeProvider timeProvider)
             thisMonthsPayday = thisMonthsPayday.AddDays(-1);
         }
 
-        return thisMonthsPayday.Equals(today);
+        return thisMonthsPayday == today;
     }
 }
