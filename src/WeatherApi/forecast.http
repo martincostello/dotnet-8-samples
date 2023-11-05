@@ -1,0 +1,4 @@
+@_WeatherApi = http://localhost:5108
+
+GET {{_WeatherApi}}/forecast
+Accept: application/json
