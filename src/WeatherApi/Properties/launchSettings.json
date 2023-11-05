@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "SourceGenerators": {
+    "WeatherApi": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

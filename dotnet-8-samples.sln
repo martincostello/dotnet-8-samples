@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{71A14C86-AA0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharp12", "src\CSharp12\CSharp12.csproj", "{1B71C35B-9F15-4CDD-B182-3A502E8551ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGenerators", "src\SourceGenerators\SourceGenerators.csproj", "{0F9969D3-F05F-43A3-A999-778335D743C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherApi", "src\WeatherApi\WeatherApi.csproj", "{0F9969D3-F05F-43A3-A999-778335D743C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeProvider", "src\TimeProvider\TimeProvider.csproj", "{6B404C9D-64D6-42A0-9429-5EED862899CE}"
 EndProject
