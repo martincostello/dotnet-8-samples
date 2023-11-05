@@ -1,0 +1,16 @@
+version: 2
+updates:
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: monthly
+    timezone: Europe/London
+- package-ecosystem: nuget
+  directory: "/"
+  groups:
+    xunit:
+      patterns:
+        - xunit*
+  schedule:
+    interval: monthly
+    timezone: Europe/London
