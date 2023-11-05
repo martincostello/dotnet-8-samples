@@ -3,8 +3,15 @@
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <NoWarn>$(NoWarn);CA1050</NoWarn>
+    <!-- HACK Suppress IL warnings from Microsoft.Extensions.Http.Resilience until 8.0.0 -->
+    <NoWarn>$(NoWarn);CA1050;IL2026;IL2104</NoWarn>
     <PublishAot>true</PublishAot>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+    <PackageReference Include="Polly.Core" />
+    <PackageReference Include="Polly.Extensions" />
+    <PackageReference Include="Polly.RateLimiting" />
+  </ItemGroup>
 </Project>

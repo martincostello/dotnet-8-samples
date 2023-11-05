@@ -1,11 +1,15 @@
 ﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Http.Resilience;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.Services.AddTransient<WeatherClient>();
-builder.Services.AddHttpClient<WeatherClient>(client => client.BaseAddress = new("https://api.open-meteo.com"));
+
+builder.Services.AddHttpClient<WeatherClient>(client => client.BaseAddress = new("https://api.open-meteo.com"))
+                .AddStandardResilienceHandler();
+
 builder.Services.Configure<WeatherOptions>(builder.Configuration.GetSection("Weather"));
 builder.Services.ConfigureHttpJsonOptions(options => options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default));
 
