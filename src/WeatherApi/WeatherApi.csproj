@@ -3,7 +3,7 @@
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <NoWarn>$(NoWarn);CA1050;CA5394</NoWarn>
+    <NoWarn>$(NoWarn);CA1050</NoWarn>
     <PublishAot>true</PublishAot>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
