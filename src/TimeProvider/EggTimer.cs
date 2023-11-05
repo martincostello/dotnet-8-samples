@@ -13,8 +13,12 @@ public sealed class EggTimer : IAsyncDisposable
     {
         _duration = duration;
         _timeProvider = timeProvider;
+
+        // Get the current timestamp so we can measure how long the egg was cooking for
         _timestamp = timeProvider.GetTimestamp();
-        _timer = timeProvider.CreateTimer(CheckCooked, null, Resolution, Resolution);
+
+        // Check for whether the egg has been cooked once a second
+        _timer = timeProvider.CreateTimer(CheckEggCooked, null, Resolution, Resolution);
     }
 
     public event EventHandler<CookedEventArgs>? Cooked;
@@ -23,14 +27,18 @@ public sealed class EggTimer : IAsyncDisposable
 
     public ValueTask DisposeAsync() => _timer.DisposeAsync();
 
-    private void CheckCooked(object? _)
+    private void CheckEggCooked(object? _)
     {
+        // See how much time has elapsed since the timer started
         var elapsed = _timeProvider.GetElapsedTime(_timestamp);
 
         if (!IsCooked && elapsed == _duration)
         {
+            // Fire event that the egg is cooked and how long it took to cook
             IsCooked = true;
             Cooked?.Invoke(this, new(elapsed));
+
+            // Stop the timer
             _timer.Dispose();
         }
     }

@@ -10,6 +10,8 @@ public class PaydayCalculator(TimeProvider timeProvider)
     public bool IsItPayday()
     {
         var today = DateOnly.FromDateTime(timeProvider.GetUtcNow().DateTime);
+
+        // Payday is on the last weekday of the month
         var thisMonthsPayday = new DateOnly(today.Year, today.Month, 1).AddMonths(1).AddDays(-1);
 
         if (thisMonthsPayday.DayOfWeek == DayOfWeek.Sunday)

@@ -5,13 +5,17 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
-builder.Services.AddTransient<WeatherClient>();
+// Configure JSON serialization to use custom JSON serializer context
+builder.Services.ConfigureHttpJsonOptions(
+    options => options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default));
 
-builder.Services.AddHttpClient<WeatherClient>(client => client.BaseAddress = new("https://api.open-meteo.com"))
-                .AddStandardResilienceHandler();
-
+// Configure configuration binding for default weather forecast options
 builder.Services.Configure<WeatherOptions>(builder.Configuration.GetSection("Weather"));
-builder.Services.ConfigureHttpJsonOptions(options => options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default));
+
+// Configure HTTP client to get weather forecasts with resilience
+builder.Services.AddTransient<WeatherClient>()
+                .AddHttpClient<WeatherClient>(client => client.BaseAddress = new("https://api.open-meteo.com"))
+                .AddStandardResilienceHandler();
 
 var app = builder.Build();
 
@@ -49,6 +53,10 @@ app.MapGet("/forecast", async (
 
 app.Run();
 
+/// <summary>
+/// A HTTP client to get weather forecasts.
+/// </summary>
+/// <param name="client">The <see cref="HttpClient"/> to use.</param>
 public class WeatherClient(HttpClient client)
 {
     public async Task<WeatherForecast?> GetForecastAsync(
@@ -82,6 +90,8 @@ public class WeatherClient(HttpClient client)
     }
 }
 
+// Define models for JSON serialization of the forecasts
+
 public record HourlyForecast(
     IList<DateTimeOffset> Time,
     [property: JsonPropertyName("temperature_2m")] IList<float> Temperature,
@@ -102,6 +112,8 @@ public enum WindSpeedUnit
     MilesPerHour,
 }
 
+// Define types to configuring the defaults for forecasts
+
 public record struct DefaultLocation(double Latitude, double Longitude);
 
 public class WeatherOptions
@@ -114,6 +126,8 @@ public class WeatherOptions
 
     public WindSpeedUnit WindSpeedUnit { get; set; }
 }
+
+// Configure custom JSON serializer context for weather forecasts
 
 [JsonSerializable(typeof(WeatherForecast))]
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]

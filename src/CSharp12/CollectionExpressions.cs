@@ -9,6 +9,7 @@ public static class CollectionExpressions
         Console.WriteLine("Initialise variables with a type:");
         Console.WriteLine();
 
+        // Collection expressions create the correct target type
         int[] array = [1, 2, 3];
         List<int> list = [4, 5, 6];
 
@@ -19,27 +20,34 @@ public static class CollectionExpressions
         Console.WriteLine("Implicit type:");
         Console.WriteLine();
 
+        // An appropriate type is created to match the method signature
         PrintValues("Enumerable", [7, 8, 9]);
         PrintNumbers("Empty array", []);
+
+        // Type parameter is required where the type is not obvious
         PrintValues<int>("Empty enumerable", []);
+
+        // The appropriate type changes from int[] to List<int> because it needs to be mutable
         AddToCollectionAndPrint("Collection", [7, 8, 9]);
 
         Console.WriteLine();
         Console.WriteLine("Spread:");
         Console.WriteLine();
 
-        PrintValues("Spread two sets", [.. array, .. list]);
-        PrintValues("Spread with literals", [0, .. array, .. list, 7]);
+        // The spread operator (..) is used to create a collection containing values from other collections
+        PrintValues("Spread two sets", [..array, ..list]);
+        PrintValues("Spread with literals", [0, ..array, ..list, 7]);
 
         Console.WriteLine();
 
-        PrintValues("Spread with slice", [.. array[..2]]);
-        PrintValues("Spread with slice", [.. array[1..]]);
+        PrintValues("Spread with slice", [..array[..2]]);
+        PrintValues("Spread with slice", [..array[1..]]);
 
         Console.WriteLine();
         Console.WriteLine("Creates target type to match the method signature:");
         Console.WriteLine();
 
+        // With the same syntax, the right type is always created
         PrintArray([1, 2, 3]);
         PrintBlockingCollection([1, 2, 3]);
         PrintCollection([1, 2, 3]);
@@ -48,12 +56,13 @@ public static class CollectionExpressions
         PrintImmutableArray([1, 2, 3]);
         PrintList([1, 2, 3]);
         PrintSpan([1, 2, 3]);
+        PrintReadOnlySpan([1, 2, 3]);
 
         Console.WriteLine();
 
+        // Collection interfaces are also supported
         PrintReadOnlyCollection([1, 2, 3]);
         PrintReadOnlyList([1, 2, 3]);
-        PrintReadOnlySpan([1, 2, 3]);
 
         Console.WriteLine();
 
@@ -62,10 +71,13 @@ public static class CollectionExpressions
 
         Console.WriteLine();
 
+        // Custom collection types are supported too
         PrintSomeNumbers([1, 2, 3]);
 
         Console.WriteLine();
 
+        // Dictionaries are not yet supported, except for when they are empty
+        // Future syntax such as ["Kirk": "Captain", "Spock": "Lieutenant"] is proposed for dictionaries
         PrintDictionary("Empty dictionary", []);
         PrintCrewMembers([]);
 
