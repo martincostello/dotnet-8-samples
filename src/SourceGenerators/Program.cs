@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.Services.AddTransient<WeatherClient>();
 builder.Services.AddHttpClient<WeatherClient>(client => client.BaseAddress = new("https://api.open-meteo.com"));
 builder.Services.Configure<WeatherOptions>(builder.Configuration.GetSection("Weather"));
+builder.Services.ConfigureHttpJsonOptions(options => options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default));
 
 var app = builder.Build();
 
@@ -39,7 +40,7 @@ app.MapGet("/forecast", async (
         return Results.NotFound();
     }
 
-    return Results.Json(forecast);
+    return Results.Ok(forecast);
 });
 
 app.Run();
@@ -70,7 +71,10 @@ public class WeatherClient(HttpClient client)
             },
         });
 
-        return await client.GetFromJsonAsync<WeatherForecast>(requestUri, cancellationToken);
+        return await client.GetFromJsonAsync(
+            requestUri,
+            AppJsonSerializerContext.Default.WeatherForecast,
+            cancellationToken);
     }
 }
 
@@ -105,4 +109,10 @@ public class WeatherOptions
     public string TimeZone { get; set; } = "UTC";
 
     public WindSpeedUnit WindSpeedUnit { get; set; }
+}
+
+[JsonSerializable(typeof(WeatherForecast))]
+[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+internal partial class AppJsonSerializerContext : JsonSerializerContext
+{
 }
