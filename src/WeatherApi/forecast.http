@@ -1,5 +1,3 @@
-#@_Port = 5000
-@_Port = 5108
 @_WeatherApi = http://localhost:{{_Port}}
 
 GET {{_WeatherApi}}/forecast
