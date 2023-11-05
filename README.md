@@ -12,9 +12,7 @@ to be installed.
 ```shell
 git clone https://github.com/martincostello/dotnet-8-samples
 cd dotnet-8-samples
-dotnet build
-dotnet test
-dotnet publish
+./build.ps1
 ```
 
 ## Repository
