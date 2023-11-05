@@ -132,22 +132,29 @@ public class TimeTests(ITestOutputHelper outputHelper)
             var elapsed = DateTimeOffset.UtcNow - start;
             outputHelper.WriteLine($"The 🍳 reported being cooked after {args.Duration.TotalMinutes} minutes.");
             outputHelper.WriteLine($"The 🍳 actually cooked after {elapsed.TotalMilliseconds}ms.");
-        };        
+        };
+
+        var tcs = new TaskCompletionSource<bool>();
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
 
         _ = Task.Run(async () =>
         {
-            while (!eggTimer.IsCooked)
+            while (!eggTimer.IsCooked && !cts.IsCancellationRequested)
             {
                 timeProvider.Advance(TimeSpan.FromMinutes(1));
                 await Task.Delay(TimeSpan.FromMilliseconds(1));
             }
-        });
 
-        for (int i = 0; i < 3; i++)
-        {
-            await Task.Delay(TimeSpan.FromMinutes(1), timeProvider);
-        }
+            if (cts.IsCancellationRequested)
+            {
+                tcs.SetCanceled(cts.Token);
+            }
+            else
+            {
+                tcs.SetResult(eggTimer.IsCooked);
+            }
+        }, cts.Token);
 
-        Assert.True(eggTimer.IsCooked, "The 🍳 did not cook.");
+        Assert.True(await tcs.Task, "The 🍳 did not cook.");
     }
 }
