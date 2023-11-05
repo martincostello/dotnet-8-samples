@@ -5,7 +5,7 @@
         var person11 = new Presenter11("Eli", true);
         person11.StopPresenting();
 
-        var person12 = new Presenter11("Martin");
+        var person12 = new Presenter12("Martin");
         person12.Present();
 
         Console.WriteLine($"Is {person11.Name} presenting? {person11.IsPresenting}");
