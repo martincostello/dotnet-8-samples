@@ -5,7 +5,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="Polly.Core" Version="8.2.0" />
     <PackageVersion Include="Polly.Extensions" Version="8.2.0" />
-    <PackageVersion Include="Polly.RateLimiting" Version="8.1.0" />
+    <PackageVersion Include="Polly.RateLimiting" Version="8.2.0" />
     <PackageVersion Include="xunit" Version="2.6.1" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
   </ItemGroup>
