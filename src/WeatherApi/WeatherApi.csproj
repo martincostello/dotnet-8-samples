@@ -11,8 +11,6 @@
   <!-- Add support for Ahead-of-Time (AoT) compilation -->
   <PropertyGroup Condition="!$([System.OperatingSystem]::IsMacOS())">
     <InvariantGlobalization>true</InvariantGlobalization>
-    <!-- HACK Suppress IL warnings from Microsoft.Extensions.Http.Resilience until 8.0.0 -->
-    <NoWarn>$(NoWarn);IL2026;IL2104</NoWarn>
     <PublishAot>true</PublishAot>
   </PropertyGroup>
   <ItemGroup>
