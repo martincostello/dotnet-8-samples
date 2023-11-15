@@ -9,7 +9,7 @@
     <EnableRequestDelegateGenerator>true</EnableRequestDelegateGenerator>
   </PropertyGroup>
   <!-- Add support for Ahead-of-Time (AoT) compilation -->
-  <PropertyGroup Condition="!$([System.OperatingSystem]::IsMacOS())">
+  <PropertyGroup>
     <InvariantGlobalization>true</InvariantGlobalization>
     <PublishAot>true</PublishAot>
   </PropertyGroup>
