@@ -3,7 +3,7 @@
 -->
 <Project>
   <PropertyGroup>
-    <NoWarn>$(NoWarn);IL2026</NoWarn>
+    <NoWarn>$(NoWarn);IL2104</NoWarn>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
   </PropertyGroup>
   <Target Name="SuppressDotNetExtensionsWarnings" BeforeTargets="PrepareForILLink">
