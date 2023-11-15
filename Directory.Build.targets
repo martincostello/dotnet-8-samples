@@ -1,0 +1,14 @@
+<!--
+  Suppress warnings until https://github.com/dotnet/extensions/issues/4622 is resolved
+-->
+<Project>
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);IL2026</NoWarn>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+  </PropertyGroup>
+  <Target Name="SuppressDotNetExtensionsWarnings" BeforeTargets="PrepareForILLink">
+    <ItemGroup>
+      <IlcArg Include="--singlewarnassembly:Microsoft.Extensions.Http.Resilience" />
+    </ItemGroup>
+  </Target>
+</Project>
