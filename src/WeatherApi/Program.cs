@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Http.Resilience;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateSlimBuilder(args);
