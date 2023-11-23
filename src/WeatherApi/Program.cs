@@ -4,17 +4,17 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
+// Configure HTTP client to get weather forecasts with resilience
+builder.Services.AddTransient<WeatherClient>()
+                .AddHttpClient<WeatherClient>(client => client.BaseAddress = new("https://api.open-meteo.com"))
+                .AddStandardResilienceHandler();
+
 // Configure JSON serialization to use custom JSON serializer context
 builder.Services.ConfigureHttpJsonOptions(
     options => options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default));
 
 // Configure configuration binding for default weather forecast options
 builder.Services.Configure<WeatherOptions>(builder.Configuration.GetSection("Weather"));
-
-// Configure HTTP client to get weather forecasts with resilience
-builder.Services.AddTransient<WeatherClient>()
-                .AddHttpClient<WeatherClient>(client => client.BaseAddress = new("https://api.open-meteo.com"))
-                .AddStandardResilienceHandler();
 
 var app = builder.Build();
 
