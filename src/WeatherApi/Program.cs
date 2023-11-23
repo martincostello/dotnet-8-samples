@@ -47,7 +47,7 @@ app.MapGet("/forecast", async (
         return Results.NotFound();
     }
 
-    return Results.Ok(forecast);
+    return Results.Json(forecast, AppJsonSerializerContext.Default.WeatherForecast);
 });
 
 app.Run();
