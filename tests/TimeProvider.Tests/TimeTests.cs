@@ -15,7 +15,7 @@ public class TimeTests(ITestOutputHelper outputHelper)
     [InlineData("2023-12-31")]
     public void It_Is_Not_Payday(string date)
     {
-        var startDateTime = new DateTimeOffset(DateOnly.Parse(date), new TimeOnly(0, 0, 0), TimeSpan.Zero);
+        var startDateTime = new DateTimeOffset(DateOnly.Parse(date), TimeOnly.MinValue, TimeSpan.Zero);
         var timeProvider = new FakeTimeProvider(startDateTime);
         var calculator = new PaydayCalculator(timeProvider);
 
@@ -39,7 +39,7 @@ public class TimeTests(ITestOutputHelper outputHelper)
     [InlineData("2023-12-29")]
     public void It_Is_Payday(string date)
     {
-        var startDateTime = new DateTimeOffset(DateOnly.Parse(date), new TimeOnly(0, 0, 0), TimeSpan.Zero);
+        var startDateTime = new DateTimeOffset(DateOnly.Parse(date), TimeOnly.MinValue, TimeSpan.Zero);
         var timeProvider = new FakeTimeProvider(startDateTime);
         var calculator = new PaydayCalculator(timeProvider);
 
