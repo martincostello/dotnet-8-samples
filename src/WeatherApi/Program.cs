@@ -89,6 +89,21 @@ public class WeatherClient(HttpClient client)
     }
 }
 
+// Define types to configuring the defaults for forecasts
+
+public record struct DefaultLocation(double Latitude, double Longitude);
+
+public class WeatherOptions
+{
+    public int Days { get; set; }
+
+    public DefaultLocation Location { get; set; }
+
+    public string TimeZone { get; set; } = "UTC";
+
+    public WindSpeedUnit WindSpeedUnit { get; set; }
+}
+
 // Define models for JSON serialization of the forecasts
 
 public record HourlyForecast(
@@ -109,21 +124,6 @@ public enum WindSpeedUnit
     Knots,
     MetersPerSecond,
     MilesPerHour,
-}
-
-// Define types to configuring the defaults for forecasts
-
-public record struct DefaultLocation(double Latitude, double Longitude);
-
-public class WeatherOptions
-{
-    public int Days { get; set; }
-
-    public DefaultLocation Location { get; set; }
-
-    public string TimeZone { get; set; } = "UTC";
-
-    public WindSpeedUnit WindSpeedUnit { get; set; }
 }
 
 // Configure custom JSON serializer context for weather forecasts
