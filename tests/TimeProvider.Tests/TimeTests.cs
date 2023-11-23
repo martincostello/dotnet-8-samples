@@ -15,12 +15,15 @@ public class TimeTests(ITestOutputHelper outputHelper)
     [InlineData("2023-12-31")]
     public void It_Is_Not_Payday(string date)
     {
+        // Arrange
         var startDateTime = new DateTimeOffset(DateOnly.Parse(date), TimeOnly.MinValue, TimeSpan.Zero);
         var timeProvider = new FakeTimeProvider(startDateTime);
         var calculator = new PaydayCalculator(timeProvider);
 
+        // Act
         var actual = calculator.IsItPayday();
 
+        // Assert
         Assert.False(actual, "It is payday when it shouldn't be 🤑");
     }
 
@@ -39,37 +42,48 @@ public class TimeTests(ITestOutputHelper outputHelper)
     [InlineData("2023-12-29")]
     public void It_Is_Payday(string date)
     {
+        // Arrange
         var startDateTime = new DateTimeOffset(DateOnly.Parse(date), TimeOnly.MinValue, TimeSpan.Zero);
         var timeProvider = new FakeTimeProvider(startDateTime);
         var calculator = new PaydayCalculator(timeProvider);
 
+        // Act
         var actual = calculator.IsItPayday();
 
+        // Assert
         Assert.True(actual, "It is not payday 😢");
     }
 
     [Fact]
     public void Time_Moves_Forwards()
     {
+        // Arrange
         var startDateTime = new DateTimeOffset(2023, 11, 29, 0, 0, 0, TimeSpan.Zero);
         var timeProvider = new FakeTimeProvider(startDateTime);
         var calculator = new PaydayCalculator(timeProvider);
 
+        // Assert
         Assert.False(calculator.IsItPayday());
         Assert.Equal(new DateOnly(2023, 11, 29), CurrentDate());
 
+        // Act
         timeProvider.Advance(TimeSpan.FromDays(1));
 
+        // Assert
         Assert.True(calculator.IsItPayday());
         Assert.Equal(new DateOnly(2023, 11, 30), CurrentDate());
 
+        // Act
         timeProvider.Advance(TimeSpan.FromDays(1));
 
+        // Assert
         Assert.False(calculator.IsItPayday());
         Assert.Equal(new DateOnly(2023, 12, 01), CurrentDate());
 
+        // Act
         timeProvider.Advance(TimeSpan.FromDays(2));
 
+        // Assert
         Assert.False(calculator.IsItPayday());
         Assert.Equal(new DateOnly(2023, 12, 03), CurrentDate());
 
@@ -80,6 +94,7 @@ public class TimeTests(ITestOutputHelper outputHelper)
     [Fact]
     public void Time_Moves_Forwards_Automatically()
     {
+        // Arrange
         var startDateTime = new DateTimeOffset(2023, 11, 29, 0, 0, 0, TimeSpan.Zero);
 
         var timeProvider = new FakeTimeProvider(startDateTime)
@@ -89,6 +104,7 @@ public class TimeTests(ITestOutputHelper outputHelper)
 
         var calculator = new PaydayCalculator(timeProvider);
 
+        // Act and Assert
         Assert.False(calculator.IsItPayday());
         Assert.True(calculator.IsItPayday());
         Assert.False(calculator.IsItPayday());
@@ -97,16 +113,22 @@ public class TimeTests(ITestOutputHelper outputHelper)
     [Fact]
     public void Back_To_The_Future_2()
     {
+        // Arrange
         var hillValley = TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles");
         var nineteenEightyFive = new DateTimeOffset(1985, 10, 21, 16, 29, 0, TimeSpan.FromHours(-8));
 
         var timeProvider = new FakeTimeProvider(nineteenEightyFive);
+
+        // Act
         timeProvider.SetLocalTimeZone(hillValley);
 
+        // Assert
         Assert.Equal(1985, timeProvider.GetLocalNow().Year);
 
+        // Act
         TimeTravelYears(30);
 
+        // Assert
         Assert.Equal(2015, timeProvider.GetLocalNow().Year);
 
         void TimeTravelYears(int value)
@@ -121,6 +143,7 @@ public class TimeTests(ITestOutputHelper outputHelper)
     [Fact]
     public async Task Timers_Can_Be_Sped_Up()
     {
+        // Arrange
         var runny = TimeSpan.FromMinutes(3);
         var timeProvider = new FakeTimeProvider();
         await using var eggTimer = new EggTimer(runny, timeProvider);
@@ -137,6 +160,7 @@ public class TimeTests(ITestOutputHelper outputHelper)
         var tcs = new TaskCompletionSource<bool>();
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
 
+        // Act
         _ = Task.Run(async () =>
         {
             while (!eggTimer.IsCooked && !cts.IsCancellationRequested)
@@ -155,6 +179,7 @@ public class TimeTests(ITestOutputHelper outputHelper)
             }
         }, cts.Token);
 
+        // Assert
         Assert.True(await tcs.Task, "The 🍳 did not cook.");
     }
 }
