@@ -84,6 +84,14 @@ public static class CollectionExpressions
         Console.WriteLine();
     }
 
+    public class SomeNumbers : List<int>
+    {
+    }
+
+    public class CrewMembers : Dictionary<string, string>
+    {
+    }
+
     static void PrintValues<T>(string prefix, IEnumerable<T> values)
         => Console.WriteLine($"\u001b[32m{prefix}\u001b[0m: [{string.Join(", ", values)}] (\u001b[35m{values.GetType().Name}\u001b[0m)");
 
@@ -152,12 +160,4 @@ public static class CollectionExpressions
     }
 
     static void PrintCrewMembers(CrewMembers values) => PrintDictionary("CrewMembers", values);
-
-    public class SomeNumbers : List<int>
-    {
-    }
-
-    public class CrewMembers : Dictionary<string, string>
-    {
-    }
 }
