@@ -12,6 +12,10 @@ param(
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
 
-dotnet build --tl
-dotnet test
-dotnet publish --tl
+if ($null -eq $env:MSBUILDTERMINALLOGGER) {
+    $env:MSBUILDTERMINALLOGGER = "auto"
+}
+
+dotnet build
+dotnet test --configuration Release
+dotnet publish
